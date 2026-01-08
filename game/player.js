@@ -4,5 +4,6 @@ const player = {
     vx: 0, vy: 0,
     speed: 4,
     jump: 12,
+    facing: true,// true = right
     onGround: false,
 };

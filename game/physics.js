@@ -12,3 +12,4 @@ function apply(player){
         player.onGround = false;
     }
 }
+
