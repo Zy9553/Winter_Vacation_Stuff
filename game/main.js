@@ -2,12 +2,7 @@ const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
 const key = {};
-const fireInterval = 100;
-const jumpInterval = 250;
-let lastShootP1 = 0;
-let lastShootP2 = 0;
-let lastJumpP1 = 0;
-let lastJumpP2 = 0;
+
 
 window.addEventListener("keydown", e=>{
     key[e.code] = true;
@@ -18,15 +13,17 @@ window.addEventListener("keyup", e=>{
     key[e.code] = false;
 });
 
+
+
 function P1(){
     player.vx = 0;
     const now = performance.now();
     if(key["KeyD"] && player.x + player.width < canvas.width ) {
-        player.vx += player.speed
+        player.vx = player.speed;
         player.facing = true;
     };
     if(key["KeyA"] && player.x > 0) {
-        player.vx += -player.speed;
+        player.vx = -player.speed;
         player.facing = false;
     }
     
@@ -38,18 +35,16 @@ function P1(){
         lastJumpP1 = now;
     }
 
-    const onPlatformP1 = Math.abs(player.y + player.height - groundY2) < 2;
-    if (key["KeyS"] && player.onGround && onPlatformP1) {
+    if (key["KeyS"] && player.onGround && (player.y + player.height < ground)) {
         player.dropDown = true;
-        player.vy = 1;
+        player.onGround = false; 
+        player.y += 1;
     }
-
 
     if(key["KeyJ"] && now-lastShootP1 > fireInterval){
         SpawnBullet(player);
         lastShootP1 = now;
     }
-
 }
 
 function P2(){
@@ -72,10 +67,10 @@ function P2(){
         lastJumpP2 = now;
     }
 
-    const onPlatformP2 = Math.abs(player2.y + player2.height - groundY2) < 2;
-    if (key["ArrowDown"] && player2.onGround && onPlatformP2) {
+    if (key["ArrowDown"] && player2.onGround && (player2.y + player2.height < ground)) {
         player2.dropDown = true;
-        player2.vy = 1;
+        player2.onGround = false; 
+        player2.y += 1;
     }
 
 
@@ -100,13 +95,16 @@ function render(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "black";
     ctx.fillRect(0, ground, canvas.width, 5);
-    ctx.fillRect(groundX2, groundY2, canvas.width/2, 5);
+    ctx.fillRect(platform.x, platform.y, platform.w, 5);
 
     ctx.fillStyle = "blue";
     ctx.fillRect(player.x, player.y, player.width, player.height);
 
     ctx.fillStyle = "green";
     ctx.fillRect(player2.x, player2.y, player2.width, player2.height);
+
+    ctx.fillText(`P1 HP: ${player.hp}`, 20, 30);
+    ctx.fillText(`P2 HP: ${player2.hp}`, canvas.width - 120, 30);
 
     renderBullets(ctx);
 }

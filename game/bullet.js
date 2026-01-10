@@ -1,5 +1,8 @@
 const bullets = [];
 const bulletSpeed = 5;
+const bulletCoolDown = 10;
+let lastHurtP1 = 0;
+let lastHurtP2 = 0;
 
 function SpawnBullet(player){
     const startX = player.facing ? player.x + player.width : player.x;
@@ -12,6 +15,7 @@ function SpawnBullet(player){
             height: 4,
             vx: bulletSpeed,
             vy: 0,
+            owner: player.id,
         });
     }else{
         bullets.push({
@@ -21,6 +25,7 @@ function SpawnBullet(player){
             height: 4,
             vx: -bulletSpeed,
             vy: 0,
+            owner: player.id,
         });
     }
     console.log("bullet length: ", bullets.length);

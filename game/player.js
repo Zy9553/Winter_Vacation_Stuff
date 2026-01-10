@@ -8,6 +8,9 @@ const player = {
     onGround: false,
     doublejump: false,
     dropDown: false,
+    hp: 100,
+    id: 1,
+    isalive: true,
 };
 
 const player2 = {
@@ -20,4 +23,7 @@ const player2 = {
     onGround: false,
     doublejump: false,
     dropDown: false,
+    hp: 100,
+    id: 2,
+    isalive: true,
 };
